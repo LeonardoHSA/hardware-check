@@ -1,0 +1,35 @@
+#!/bin/bash
+#
+# @leonardosanfins
+#
+# Hardware Check
+
+echo "##################"
+echo "# Hardware-Check #"
+echo "##################"
+echo ""
+function cpu_check {
+    echo "**** CPU-Check ****"
+    echo ""
+    cpu=$(cat /proc/cpuinfo | grep -m 1 "model name" | cut -c 13-60)
+    echo "${cpu}"
+}
+
+function memory_check {
+    echo "**** Memory-Check ****"
+    echo ""
+    memory=$(free -m -h)
+    echo "${memory}"
+}
+
+function partition_check {
+    echo "**** Partition-Check ****"
+    echo ""
+    partition=$(df -h)
+    echo "${partition}"
+    echo ""
+    block=$(lsblk)
+    echo "${block}"		
+}
+
+cpu_check
