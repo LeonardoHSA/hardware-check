@@ -44,7 +44,7 @@ function disk {
 }
 
 if [ "${arg}" == "" ]; then
-    echo "Por favor, utilizar os seguintes argumentos para o comando:"
+    echo "Por favor, utilizar os seguintes argumentos para o comando hardware-check:"
     echo ""
     echo "[cpu] [memory] [disk] [all]"
 else
