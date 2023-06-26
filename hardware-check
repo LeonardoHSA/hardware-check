@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# @leonardosanfins
+# Autor: Leonardo Sanfins
 #
 # Hardware Check
 
@@ -8,28 +8,70 @@ echo "##################"
 echo "# Hardware-Check #"
 echo "##################"
 echo ""
-function cpu_check {
+
+arg=$1
+
+function cpu {
     echo "**** CPU-Check ****"
     echo ""
-    cpu=$(cat /proc/cpuinfo | grep -m 1 "model name" | cut -c 13-60)
+    cpu=$(cat /proc/cpuinfo | grep -m 1 "model name" | cut -c 14-60)
     echo "${cpu}"
+    echo ""
+    core=$(cat /proc/cpuinfo | grep "processor" | wc -l)
+    echo "Cores: ${core}"
+    echo ""
+    cache=$(cat /proc/cpuinfo | grep -m 1 "cache size" | cut -c 14-60)
+    echo "Cache size: ${cache}"
 }
 
-function memory_check {
+function memory {
     echo "**** Memory-Check ****"
     echo ""
     memory=$(free -m -h)
     echo "${memory}"
+    echo ""
 }
 
-function partition_check {
-    echo "**** Partition-Check ****"
+function disk {
+    echo "**** Disk-Check ****"
     echo ""
     partition=$(df -h)
     echo "${partition}"
     echo ""
     block=$(lsblk)
-    echo "${block}"		
+    echo "${block}"
+    echo ""		
 }
 
-cpu_check
+if [ "${arg}" == "" ]; then
+    echo "Por favor, utilizar os seguintes argumentos para o comando:"
+    echo ""
+    echo "[cpu] [memory] [disk] [all]"
+else
+    case "${arg}" in
+     
+    cpu) 
+        cpu
+    ;;
+     
+    memory)
+        memory
+    ;;
+     
+    disk)
+        disk
+    ;;
+    
+    all)
+        cpu
+        echo ""
+        echo "--------------"
+        echo ""
+        memory
+        echo ""
+        echo "--------------"
+        echo ""
+        disk
+    ;;             
+    esac
+fi
